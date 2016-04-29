@@ -17,11 +17,11 @@ public class GameEngine implements KeyListener{
 	private SpaceShip v;	
 	
 	private Timer timer;
-	private double diff = 0.1;
+	private double difficulty = 0.1;
 	public GameEngine(GamePanel gp, SpaceShip v) {
 		this.gp = gp;
 		this.v = v;		
-		process();
+	
 		gp.sprites.add(v);
 		
 		timer = new Timer(50, new ActionListener() {
@@ -44,27 +44,40 @@ public class GameEngine implements KeyListener{
  		enemies.add(e);
  	}
  	private void process(){
- 		generateEnemy();
+ 		if(Math.random() < difficulty){
+ 			generateEnemy();	
+ 		}
+ 		Iterator<Enemy> e_iter = enemies.iterator();
+ 		while(e_iter.hasNext()){
+ 			Enemy e = e_iter.next();
+ 			e.proceed();
+ 			if(!e.isAlive()){
+ 				e_iter.remove();
+ 				gp.sprites.remove(e);
+ 			}
+ 		}
  		gp.updateGameUI();
+		Rectangle2D.Double er;
+ 		for(Enemy e : enemies){
+ 			er = e.getRectangle();
  	}
 
-	
+	}
 	void controlVehicle(KeyEvent e) {
- 		switch (e.getKeyCode()) {
- 		case KeyEvent.VK_LEFT:
- 			v.move(-1);
- 			break;
- 		case KeyEvent.VK_RIGHT:
- 			v.move(1);
- 			break;
- 		case KeyEvent.VK_D:
- 			diff += 0.1;
- 			break;
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_LEFT:
+			v.move(-1);
+			break;
+		case KeyEvent.VK_RIGHT:
+			v.move(1);
+			break;
+		case KeyEvent.VK_D:
+			difficulty += 0.1;
+			break;
+
  		}
  	}
  
- 
- 	
  	@Override
  	public void keyPressed(KeyEvent e) {
  		controlVehicle(e);
