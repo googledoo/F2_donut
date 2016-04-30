@@ -18,6 +18,7 @@ public class GameEngine implements KeyListener{
 	
 	private Timer timer;
 	private double difficulty = 0.1;
+	private boolean checkend = false;
 	public GameEngine(GamePanel gp, SpaceShip v) {
 		this.gp = gp;
 		this.v = v;		
@@ -35,9 +36,9 @@ public class GameEngine implements KeyListener{
 		
 	}
 	
-	public void start(){
+	/*public void start(){
 		timer.start();
-	}
+	}*/
 	private void generateEnemy(){
  		Enemy e = new Enemy((int)(Math.random()*390),30);
  		gp.sprites.add(e);
@@ -71,6 +72,7 @@ public class GameEngine implements KeyListener{
 
 	public void die(){
 		timer.stop();
+		checkend = false;
 	}
 	void controlVehicle(KeyEvent e) {
 		switch (e.getKeyCode()) {
@@ -83,6 +85,9 @@ public class GameEngine implements KeyListener{
 		case KeyEvent.VK_D:
 			difficulty += 0.1;
 			break;
+		case KeyEvent.VK_SPACE:
+ 			if(!checkend) timer.start();
+ 			break;
 
  		}
  	}
