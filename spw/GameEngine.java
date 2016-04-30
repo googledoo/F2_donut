@@ -39,7 +39,7 @@ public class GameEngine implements KeyListener{
 		timer.start();
 	}
 	private void generateEnemy(){
- 		Enemy e = new Enemy(100,50);
+ 		Enemy e = new Enemy((int)(Math.random()*390),30);
  		gp.sprites.add(e);
  		enemies.add(e);
  	}
@@ -55,14 +55,11 @@ public class GameEngine implements KeyListener{
  				e_iter.remove();
  				gp.sprites.remove(e);
  			}
- 		}
- 		gp.updateGameUI();
-		Rectangle2D.Double er;
- 		for(Enemy e : enemies){
- 			er = e.getRectangle();
+ 		
  	}
-
+		gp.updateGameUI();
 	}
+
 	void controlVehicle(KeyEvent e) {
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
